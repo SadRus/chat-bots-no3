@@ -2,15 +2,18 @@ import os
 import random
 import vk_api as vk
 
+from detect_intent_text import detect_intent_texts
 from dotenv import load_dotenv
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 
 def echo(event, vk_api):
+    incoming_text = event.text
+    outgoing_text = detect_intent_texts(incoming_text)
     vk_api.messages.send(
         user_id=event.user_id,
-        message=event.text,
-        random_id=random.randint(1, 1000)
+        message=outgoing_text,
+        random_id=random.randint(1, 1000),
     )
 
 
