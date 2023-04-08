@@ -10,7 +10,7 @@ def echo(event, vk_api):
     vk_api.messages.send(
         user_id=event.user_id,
         message=event.text,
-        random_id=random.randint(1,1000)
+        random_id=random.randint(1, 1000)
     )
 
 
