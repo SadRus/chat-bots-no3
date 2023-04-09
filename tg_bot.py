@@ -24,10 +24,12 @@ def start(update: Update, context: CallbackContext):
 
 
 def dialogflow_answer(update: Update, context: CallbackContext):
-    text = detect_intent_texts(text=update.message.text)
+    input_text = update.message.text
+    intent_content = detect_intent_texts(input_text)
+    output_text = intent_content['fulfillment_text']
     context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=text,
+        text=output_text,
     )
 
 
