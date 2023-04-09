@@ -3,6 +3,7 @@ import os
 
 from detect_intent_text import detect_intent_texts
 from dotenv import load_dotenv
+from logging.handlers import RotatingFileHandler
 from telegram import Update
 from telegram.ext import (
     CallbackContext,
@@ -13,7 +14,7 @@ from telegram.ext import (
 )
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('tg_bot_logger')
 
 
 def start(update: Update, context: CallbackContext):
@@ -36,9 +37,19 @@ def dialogflow_answer(update: Update, context: CallbackContext):
 def main():
     load_dotenv()
     logging.basicConfig(
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=logging.INFO,
+        filename='tg_bot.log',
+        filemode='w',
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     )
+    logger.setLevel(logging.INFO)
+    handler = RotatingFileHandler(
+        filename='tg_bot.log',
+        maxBytes=200,
+        backupCount=1,
+    )
+    logger.addHandler(handler)
+
     tg_bot_token = os.getenv('TG_BOT_TOKEN')
 
     updater = Updater(tg_bot_token)
@@ -51,8 +62,11 @@ def main():
     dispatcher.add_handler(
         MessageHandler(Filters.text & (~Filters.command), dialogflow_answer)
     )
-
-    updater.start_polling()
+    try:
+        updater.start_polling()
+        logger.info('Bot started')
+    except Exception as e:
+        logger.exception(e)
 
 
 if __name__ == '__main__':
