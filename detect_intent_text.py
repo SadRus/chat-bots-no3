@@ -36,19 +36,22 @@ def detect_intent_texts(
     }
     response = session_client.detect_intent(request)
 
-    query_text = response.query_result.query_text
-    intent_name = response.query_result.intent.display_name
-    intent_confidence = response.query_result.intent_detection_confidence
-    fulfillment_text = response.query_result.fulfillment_text
+    intent_content = {
+        'query_text': response.query_result.query_text,
+        'intent_name': response.query_result.intent.display_name,
+        'intent_confidence': response.query_result.intent_detection_confidence,
+        'fulfillment_text': response.query_result.fulfillment_text,
+        'is_fallback': response.query_result.intent.is_fallback,
+    }
 
     print(
         '=' * 20 + '\n',
-        f'Query text: {query_text}\n',
-        f'Detected intent: {intent_name}',
-        f'(confidence: {intent_confidence})\n',
-        f'Fulfillment text: {fulfillment_text}'
+        f'Query text: {intent_content["query_text"]}\n',
+        f'Detected intent: {intent_content["intent_name"]}',
+        f'(confidence: {intent_content["intent_confidence"]})\n',
+        f'Fulfillment text: {intent_content["fulfillment_text"]}'
     )
-    return fulfillment_text
+    return intent_content
 
 
 if __name__ == '__main__':
