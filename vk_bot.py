@@ -7,12 +7,15 @@ from dotenv import load_dotenv
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 
-def echo(event, vk_api):
-    incoming_text = event.text
-    outgoing_text = detect_intent_texts(incoming_text)
+def dialogflow_response(event, vk_api):
+    input_text = event.text
+    intent_content = detect_intent_texts(input_text)
+    output_text = intent_content['fulfillment_text']
+    if intent_content['is_fallback']:
+        output_text = None
     vk_api.messages.send(
         user_id=event.user_id,
-        message=outgoing_text,
+        message=output_text,
         random_id=random.randint(1, 1000),
     )
 
@@ -28,7 +31,7 @@ def main():
 
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            echo(event, vk_api)
+            dialogflow_response(event, vk_api)
 
 
 if __name__ == '__main__':
