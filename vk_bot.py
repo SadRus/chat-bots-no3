@@ -1,5 +1,6 @@
 import logging
 import os
+import telegram
 import random
 import vk_api as vk
 
@@ -11,6 +12,19 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 
 
 logger = logging.getLogger('vk_bot_no3_logger')
+
+
+class TelegramLogsHandler(RotatingFileHandler):
+
+    def __init__(self, filename, tg_bot, chat_id, **kwargs):
+        super().__init__(filename, **kwargs)
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+    def emit(self, record):
+        super().emit(record)
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def dialogflow_answer(event, vk_api):
@@ -30,6 +44,11 @@ def main():
     parser = create_parser()
     args = parser.parse_args()
 
+    tg_bot_logger_token = os.getenv('TG_BOT_LOGGER_TOKEN')
+    tg_chat_id = os.getenv('TG_CHAT_ID')
+
+    tg_bot_logger = telegram.Bot(token=tg_bot_logger_token)
+
     logs_full_path = os.path.join(args.dest_folder, 'vk_bot_no3.log')
     os.makedirs(args.dest_folder, exist_ok=True)
     logging.basicConfig(
@@ -39,8 +58,10 @@ def main():
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     )
     logger.setLevel(logging.INFO)
-    handler = RotatingFileHandler(
-        filename=logs_full_path,
+    handler = TelegramLogsHandler(
+        logs_full_path,
+        tg_bot=tg_bot_logger,
+        chat_id=tg_chat_id,
         maxBytes=args.max_bytes,
         backupCount=args.backup_count,
     )
@@ -51,7 +72,7 @@ def main():
     vk_session = vk.VkApi(token=vk_group_token)
     vk_api = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
-    logger.info('VK_bot_no3 started')
+    logger.info('Vk group chat-bot #3 started')
 
     try:
         for event in longpoll.listen():
