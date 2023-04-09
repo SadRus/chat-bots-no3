@@ -7,10 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def detect_intent_texts(
-    text,
-    language_code='ru-RU',
-):
+def detect_intent_texts(text, language_code='ru-RU'):
     """Returns the result of detect intent with texts as inputs.
 
     Using the same `session_id` between requests allows continuation
@@ -43,7 +40,3 @@ def detect_intent_texts(
         'is_fallback': response.query_result.intent.is_fallback,
     }
     return intent_content
-
-
-if __name__ == '__main__':
-    detect_intent_texts('vo1cec1tybot', '440084749', 'привет')

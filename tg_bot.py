@@ -31,14 +31,6 @@ def dialogflow_answer(update: Update, context: CallbackContext):
     )
 
 
-def caps(update: Update, context: CallbackContext):
-    text_caps = ' '.join(context.args).upper()
-    context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=text_caps,
-    )
-
-
 def main():
     load_dotenv()
     logging.basicConfig(
@@ -52,7 +44,6 @@ def main():
 
     # Command handlers
     dispatcher.add_handler(CommandHandler('start', start))
-    dispatcher.add_handler(CommandHandler('caps', caps))
 
     # Message handlers
     dispatcher.add_handler(
