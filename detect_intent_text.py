@@ -22,7 +22,6 @@ def detect_intent_texts(
 
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(project_id, session_id)
-    print(f'Session path: {session}\n')
 
     text_input = dialogflow.TextInput(
         text=text,
@@ -43,14 +42,6 @@ def detect_intent_texts(
         'fulfillment_text': response.query_result.fulfillment_text,
         'is_fallback': response.query_result.intent.is_fallback,
     }
-
-    print(
-        '=' * 20 + '\n',
-        f'Query text: {intent_content["query_text"]}\n',
-        f'Detected intent: {intent_content["intent_name"]}',
-        f'(confidence: {intent_content["intent_confidence"]})\n',
-        f'Fulfillment text: {intent_content["fulfillment_text"]}'
-    )
     return intent_content
 
 
