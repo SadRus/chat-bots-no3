@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 
-def dialogflow_response(event, vk_api):
+def dialogflow_answer(event, vk_api):
     input_text = event.text
     intent_content = detect_intent_texts(input_text)
     output_text = intent_content['fulfillment_text']
@@ -31,7 +31,7 @@ def main():
 
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            dialogflow_response(event, vk_api)
+            dialogflow_answer(event, vk_api)
 
 
 if __name__ == '__main__':

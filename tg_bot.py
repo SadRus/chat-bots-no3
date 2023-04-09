@@ -23,7 +23,7 @@ def start(update: Update, context: CallbackContext):
     )
 
 
-def echo(update: Update, context: CallbackContext):
+def dialogflow_answer(update: Update, context: CallbackContext):
     text = detect_intent_texts(text=update.message.text)
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -56,7 +56,7 @@ def main():
 
     # Message handlers
     dispatcher.add_handler(
-        MessageHandler(Filters.text & (~Filters.command), echo)
+        MessageHandler(Filters.text & (~Filters.command), dialogflow_answer)
     )
 
     updater.start_polling()
