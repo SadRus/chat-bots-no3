@@ -15,7 +15,7 @@ from telegram.ext import (
 )
 
 
-logger = logging.getLogger('tg_bot_logger')
+logger = logging.getLogger('tg_bot_no3_logger')
 
 
 def start(update: Update, context: CallbackContext):
@@ -70,7 +70,7 @@ def main():
     )
     try:
         updater.start_polling()
-        logger.info('Bot started')
+        logger.info('tg_bot_no3 started')
     except Exception as e:
         logger.exception(e)
 
