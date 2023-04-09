@@ -57,6 +57,7 @@ def main():
     tg_bot_token = os.getenv('TG_BOT_TOKEN')
     tg_bot_logger_token = os.getenv('TG_BOT_LOGGER_TOKEN')
     tg_chat_id = os.getenv('TG_CHAT_ID')
+
     tg_bot_logger = telegram.Bot(token=tg_bot_logger_token)
 
     logs_full_path = os.path.join(args.dest_folder, 'tg_bot_no3.log')
@@ -89,7 +90,7 @@ def main():
     )
     try:
         updater.start_polling()
-        logger.info('tg_bot_no3 started')
+        logger.info('Telegram chat-bot #3 "VoiceBot" started')
     except Exception as e:
         logger.exception(e)
 
