@@ -1,6 +1,7 @@
 import logging
 import os
 
+from create_parser import create_parser
 from detect_intent_text import detect_intent_texts
 from dotenv import load_dotenv
 from logging.handlers import RotatingFileHandler
@@ -36,17 +37,22 @@ def dialogflow_answer(update: Update, context: CallbackContext):
 
 def main():
     load_dotenv()
+    parser = create_parser()
+    args = parser.parse_args()
+
+    logs_full_path = os.path.join(args.dest_folder, 'tg_bot_no3.log')
+    os.makedirs(args.dest_folder, exist_ok=True)
     logging.basicConfig(
         level=logging.INFO,
-        filename='tg_bot.log',
+        filename=logs_full_path,
         filemode='w',
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     )
     logger.setLevel(logging.INFO)
     handler = RotatingFileHandler(
-        filename='tg_bot.log',
-        maxBytes=200,
-        backupCount=1,
+        filename=logs_full_path,
+        maxBytes=args.max_bytes,
+        backupCount=args.backup_count,
     )
     logger.addHandler(handler)
 
