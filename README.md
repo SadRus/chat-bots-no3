@@ -7,7 +7,6 @@ Telegram chatbot and vk group chatbot, that will help answer the same type of qu
 DialogFlow -  it's a natural language understanding google cloud service. DialogFlow can analyze the text intent and response to you
 by using training phrases which you provide.  
 
-
 ### Objective of project
 
 The project is written for educational purposes within online courses for web developers [dvmn.org](https://dvmn.org/).
