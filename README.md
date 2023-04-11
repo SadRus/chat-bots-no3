@@ -94,33 +94,32 @@ link: https://vk.com/im?peers=-217501442&sel=c162
 3. Put into the folder file with virtual enviroments `.env`
 4. Create a virtual enviroment, use python(or python3):  
 `python -m venv venv`
-5. Install requirements, use pip(or pip3):  
- `pip install -r requirements`
+5. Follow Installing section above
 6. Create a file(unit) in the `/etc/systemd/system` called like name project, e.g. `chat-bots-no1.service`, use:  
-`touch /etc/systemd/system/chat-bots-no1.service`
+`touch /etc/systemd/system/{project}.service`
 7. Write the following config into it:  
     * Execstart - for start the sevice
     * Restart - auto-restart the service if it crashes
     * WantedBy - for start service within server
 ```
 [Service]  
-ExecStart=/opt/{project}/venv/bin/python3 /opt/{project}/main.py
+ExecStart=/opt/{project}/venv/bin/python3 /opt/{project}/{main.py}
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
 ```  
 8. Include the unit in the autoload list  
-`systemctl enable echobot-example`
+`systemctl enable {project}`
 9. Reload systemctl  
 `systemctl daemon-reload`
 10. Start the unit  
-`systemctl start chat-bots-no1`
-11. Logs will writing into `/var/log/bot.log`
+`systemctl start {project}`
+11. Logs will writing by enviroment variable `LOGS_FOLDER` path (for server use `/var/log/` path)
 12. You can check the process, if the process is running it will show:  
-`ps -aux | grep chat-bots-no1`
+`ps -aux | grep {project}`
 ![image](https://user-images.githubusercontent.com/79669407/228650981-e6f8016a-40e6-4c4f-88ef-a3df6969d2fc.png)
-13. if the bot is running it will send a message:  
+13. if the bot is running bot logger will send a message like this:  
 ![image](https://user-images.githubusercontent.com/79669407/228651407-0473a366-5cab-4ac8-a346-8e8435ce402d.png)
 
 
