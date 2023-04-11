@@ -37,7 +37,10 @@ pip install -r requirements.txt
 7. Create credentials for authenticate within google user accounts. 
 Also it needed for google libraries calls, then save it in enviroment variables:  
 https://cloud.google.com/dialogflow/es/docs/quick/setup#api 
-8. For VK bot needs to create a group
+8. For VK bot needed:  
+8.1 Create the group  
+8.2 Get VK group token  
+8.3 Enable messages in group
 
 ### Enviroment
 
@@ -51,6 +54,7 @@ You needs to create .env file for enviroment variables in main folder.
 - `LOGS_FOLDER` - destination folder for logs
 - `LOGS_MAX_SIZE` - bot logs file maximum size in bytes
 - `LOGS_BACKUP_COUNT` - bot logs file backup count
+- `VK_GROUP_TOKEN` - yours vk group token
 
 ### Usage
 Before start the script, needs activate your bot via `/start` command in chat.
@@ -60,15 +64,14 @@ From scripts folder:
 python(or python3) main.py
 ```
 Alternate arguments:
-- **-h / --help** - display shortly description of script and arguments.
-- **-ci / --chat_id** - yours chat_id / user_id (by default use enviroment variable 'TG_CHAT_ID').  
-- **-d / --dest_folder** - destination folder for bot logs
-- **-m / --max_bytes** - bot logs file maximum size in bytes
-- **-bc / --backup_count** - logs file backup count
+- **-h / --help** - display shortly description of script and arguments. 
+- **-d / --dest_folder** - destination folder for bot logs (by default use enviroment variable 'LOGS_FOLDER').
+- **-m / --max_bytes** - bot logs file maximum size in bytes (by default use enviroment variable 'LOGS_MAX_SIZE').
+- **-bc / --backup_count** - logs file backup count (by default use enviroment variable 'LOGS_BACKUP_COUNT').
 
 
 Running example with arguments:  
-`python main.py --ci 123456`
+`python main.py -bc 3`
 
 ### Examples  
 * **Example of a Telegram bot helper**
@@ -119,9 +122,5 @@ WantedBy=multi-user.target
 ![image](https://user-images.githubusercontent.com/79669407/228650981-e6f8016a-40e6-4c4f-88ef-a3df6969d2fc.png)
 13. if the bot is running it will send a message:  
 ![image](https://user-images.githubusercontent.com/79669407/228651407-0473a366-5cab-4ac8-a346-8e8435ce402d.png)
-
-
-
-
 
 
