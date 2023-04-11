@@ -116,8 +116,9 @@ WantedBy=multi-user.target
 10. Start the unit  
 `systemctl start {project}`
 11. Logs will writing by enviroment variable `LOGS_FOLDER` path (for server use `/var/log/` path)
-12. You can check the process, if the process is running it will show:  
-`ps -aux | grep {project}`
+12. You can check the process:  
+`ps -aux | grep {project}`  
+If the process is running it will show something like this, depends on your project name:  
 ![image](https://user-images.githubusercontent.com/79669407/228650981-e6f8016a-40e6-4c4f-88ef-a3df6969d2fc.png)
 13. if the bot is running bot logger will send a message like this:  
 ![image](https://user-images.githubusercontent.com/79669407/228651407-0473a366-5cab-4ac8-a346-8e8435ce402d.png)
