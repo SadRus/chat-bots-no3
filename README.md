@@ -1,5 +1,14 @@
 # Dvmn service chat bots helper.
 
+### Table of content:
+1. [Description](#description)
+2. [Objective of project](#objective-of-project)
+3. [Installing](#installing)
+4. [Enviroment](#enviroment)
+5. [Usage](#usage)
+6. [Examples](#examples)
+7. [Deployment](#deployment-on-a-server)
+
 ### Description 
 
 Telegram chatbot and vk group chatbot, that will help answer the same type of questions using DialogFlow.  
@@ -9,16 +18,101 @@ by using training phrases which you provide.
 
 ### Objective of project
 
-The project is written for educational purposes within online courses for web developers [dvmn.org](https://dvmn.org/).
+The script is written for educational purposes within online courses for web developers [dvmn.org](https://dvmn.org/).
 
-### Example of a Telegram bot helper
+### Installing
+
+Python3 must be installed. 
+Use `pip` (or `pip3`) for install requirements:
+```
+pip install -r requirements.txt
+```  
+Also needs to install a google cloud CLI:  
+https://cloud.google.com/sdk/docs/install#linux
+
+### Enviroment
+
+You needs to create .env file for enviroment variables in main folder.
+
+- `GOOGLE_APPLICATION_CREDENTIALS`
+- `DVMN_TOKEN` - dvmn token, you can get it here: https://dvmn.org/api/docs/  
+- `TG_BOT_TOKEN` - needs register a bot in telegram via @BotFather: https://t.me/BotFather
+- `TG_CHAT_ID` - yours chat_id / user_id, you can check it via @userinfobot: https://t.me/userinfobot
+- `TG_BOT_LOGGER_TOKEN` - register an additional bot for sending logs
+- `LOGS_FOLDER` - destination folder for logs
+- `LOGS_MAX_SIZE` - bot logs file maximum size in bytes
+- `LOGS_BACKUP_COUNT` - bot logs file backup count
+
+### Usage
+Before start the script, needs activate your bot via `/start` command in chat.
+
+From scripts folder:
+```
+python(or python3) main.py
+```
+Alternate arguments:
+- **-h / --help** - display shortly description of script and arguments.
+- **-ci / --chat_id** - yours chat_id / user_id (by default use enviroment variable 'TG_CHAT_ID').  
+- **-d / --dest_folder** - destination folder for bot logs
+- **-m / --max_bytes** - bot logs file maximum size in bytes
+- **-bc / --backup_count** - logs file backup count
+
+
+Running example with arguments:  
+`python main.py --ci 123456`
+
+### Examples  
+## Example of a Telegram bot helper
 
 Bot will answer for a common questions in a private telegram chat  
 link: https://t.me/vo1ce_c1ty_bot  
 ![tg_bot](https://user-images.githubusercontent.com/79669407/231001881-74f8416f-0603-46d8-b16c-3ee34cf79be0.gif)  
 
-### Example of a VK group bot
+## Example of a VK group bot
 
-Bot will answer for a common questions in a private vk chat if you writting in a group chat 
+Bot will answer for a common questions in a private vk chat if you writting in a group chat  
 link: https://vk.com/im?peers=-217501442&sel=c162
 ![vk_bot](https://user-images.githubusercontent.com/79669407/231004992-ec2d9add-2bad-4f8f-bd76-7281fe9387d9.gif)
+
+### Deployment on a server
+
+1. Log in to a server via username, server IP and password:  
+`ssh {username}@{server IP}`
+2. Clone repository. Advise to put the code in the `/opt/{project}/` folder
+3. Put into the folder file with virtual enviroments `.env`
+4. Create a virtual enviroment, use python(or python3):  
+`python -m venv venv`
+5. Install requirements, use pip(or pip3):  
+ `pip install -r requirements`
+6. Create a file(unit) in the `/etc/systemd/system` called like name project, e.g. `chat-bots-no1.service`, use:  
+`touch /etc/systemd/system/chat-bots-no1.service`
+7. Write the following config into it:  
+    * Execstart - for start the sevice
+    * Restart - auto-restart the service if it crashes
+    * WantedBy - for start service within server
+```
+[Service]  
+ExecStart=/opt/{project}/venv/bin/python3 /opt/{project}/main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```  
+8. Include the unit in the autoload list  
+`systemctl enable echobot-example`
+9. Reload systemctl  
+`systemctl daemon-reload`
+10. Start the unit  
+`systemctl start chat-bots-no1`
+11. Logs will writing into `/var/log/bot.log`
+12. You can check the process, if the process is running it will show:  
+`ps -aux | grep chat-bots-no1`
+![image](https://user-images.githubusercontent.com/79669407/228650981-e6f8016a-40e6-4c4f-88ef-a3df6969d2fc.png)
+13. if the bot is running it will send a message:  
+![image](https://user-images.githubusercontent.com/79669407/228651407-0473a366-5cab-4ac8-a346-8e8435ce402d.png)
+
+
+
+
+
+
