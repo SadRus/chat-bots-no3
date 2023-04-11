@@ -22,19 +22,28 @@ The script is written for educational purposes within online courses for web dev
 
 ### Installing
 
-Python3 must be installed. 
+1. Python3 must be installed. 
 Use `pip` (or `pip3`) for install requirements:
 ```
 pip install -r requirements.txt
 ```  
-Also needs to install a google cloud CLI:  
-https://cloud.google.com/sdk/docs/install#linux
+2. Also needs to install a google cloud CLI: https://cloud.google.com/sdk/docs/install#linux  
+3. Create DialogFlow project:  
+3.1 https://cloud.google.com/dialogflow/es/docs/quick/setup - how to create  
+3.2 https://dialogflow.cloud.google.com/#/getStarted - DialogFlow page 
+4. Create DialogFlow Agent: https://cloud.google.com/dialogflow/es/docs/quick/build-agent  
+5. Create Intents
+6. Enable DialogFlow API: https://cloud.google.com/dialogflow/es/docs/quick/setup#api
+7. Create credentials for authenticate within google user accounts. 
+Also it needed for google libraries calls, then save it in enviroment variables:  
+https://cloud.google.com/dialogflow/es/docs/quick/setup#api 
+8. For VK bot needs to create a group
 
 ### Enviroment
 
 You needs to create .env file for enviroment variables in main folder.
 
-- `GOOGLE_APPLICATION_CREDENTIALS`
+- `GOOGLE_APPLICATION_CREDENTIALS` - path to yours credentials
 - `DVMN_TOKEN` - dvmn token, you can get it here: https://dvmn.org/api/docs/  
 - `TG_BOT_TOKEN` - needs register a bot in telegram via @BotFather: https://t.me/BotFather
 - `TG_CHAT_ID` - yours chat_id / user_id, you can check it via @userinfobot: https://t.me/userinfobot
@@ -62,13 +71,13 @@ Running example with arguments:
 `python main.py --ci 123456`
 
 ### Examples  
-## Example of a Telegram bot helper
+* **Example of a Telegram bot helper**
 
 Bot will answer for a common questions in a private telegram chat  
 link: https://t.me/vo1ce_c1ty_bot  
 ![tg_bot](https://user-images.githubusercontent.com/79669407/231001881-74f8416f-0603-46d8-b16c-3ee34cf79be0.gif)  
 
-## Example of a VK group bot
+* **Example of a VK group bot**
 
 Bot will answer for a common questions in a private vk chat if you writting in a group chat  
 link: https://vk.com/im?peers=-217501442&sel=c162
