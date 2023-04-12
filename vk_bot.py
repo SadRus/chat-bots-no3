@@ -27,9 +27,9 @@ class TelegramLogsHandler(RotatingFileHandler):
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-def dialogflow_answer(event, vk_api):
+def send_dialogflow_answer(event, vk_api, session_id, project_id):
     input_text = event.text
-    intent_content = detect_intent_texts(input_text)
+    intent_content = detect_intent_texts(input_text, session_id, project_id)
     if not intent_content['is_fallback']:
         output_text = intent_content['fulfillment_text']
         vk_api.messages.send(
@@ -46,6 +46,9 @@ def main():
 
     tg_bot_logger_token = os.getenv('TG_BOT_LOGGER_TOKEN')
     tg_chat_id = os.getenv('TG_CHAT_ID')
+    vk_group_token = os.getenv('VK_GROUP_TOKEN')
+    project_id = os.getenv('PROJECT_ID')
+    session_id = os.getenv('TG_CHAT_ID')
 
     tg_bot_logger = telegram.Bot(token=tg_bot_logger_token)
 
@@ -67,8 +70,6 @@ def main():
     )
     logger.addHandler(handler)
 
-    vk_group_token = os.getenv('VK_GROUP_TOKEN')
-
     vk_session = vk.VkApi(token=vk_group_token)
     vk_api = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
@@ -77,7 +78,7 @@ def main():
     try:
         for event in longpoll.listen():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-                dialogflow_answer(event, vk_api)
+                send_dialogflow_answer(event, vk_api, session_id, project_id)
     except Exception as e:
         logger.exception(e)
 

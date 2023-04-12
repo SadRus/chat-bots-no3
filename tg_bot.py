@@ -39,9 +39,12 @@ def start(update: Update, context: CallbackContext):
     )
 
 
-def dialogflow_answer(update: Update, context: CallbackContext):
+def send_dialogflow_answer(update: Update, context: CallbackContext):
+    project_id = os.getenv('PROJECT_ID')
+    session_id = os.getenv('TG_CHAT_ID')
+
     input_text = update.message.text
-    intent_content = detect_intent_texts(input_text)
+    intent_content = detect_intent_texts(input_text, session_id, project_id)
     output_text = intent_content['fulfillment_text']
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -86,11 +89,14 @@ def main():
 
     # Message handlers
     dispatcher.add_handler(
-        MessageHandler(Filters.text & (~Filters.command), dialogflow_answer)
+        MessageHandler(
+            Filters.text & (~Filters.command),
+            send_dialogflow_answer,
+        )
     )
     try:
         updater.start_polling()
-        logger.info('Telegram chat-bot #3 "VoiceBot" started')
+        logger.info('Telegram chat-bot #3 @vo1ce_c1ty_bot started')
     except Exception as e:
         logger.exception(e)
 

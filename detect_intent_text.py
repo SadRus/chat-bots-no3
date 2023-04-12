@@ -1,17 +1,13 @@
-import os
-
 from google.cloud import dialogflow
 
 
-def detect_intent_texts(text, language_code='ru-RU'):
+# def detect_intent_texts(text, language_code='ru-RU'):
+def detect_intent_texts(text, session_id, project_id, language_code='ru-RU'):
     """Returns the result of detect intent with texts as inputs.
 
     Using the same `session_id` between requests allows continuation
     of the conversation.
     """
-
-    session_id = os.getenv('TG_CHAT_ID')
-    project_id = os.getenv('PROJECT_ID')
 
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(project_id, session_id)
