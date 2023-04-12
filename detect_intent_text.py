@@ -1,10 +1,6 @@
 import os
 
 from google.cloud import dialogflow
-from dotenv import load_dotenv
-
-
-load_dotenv()
 
 
 def detect_intent_texts(text, language_code='ru-RU'):
