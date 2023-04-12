@@ -5,7 +5,6 @@ import telegram
 from create_parser import create_parser
 from detect_intent_text import detect_intent_texts
 from dotenv import load_dotenv
-from logging.handlers import RotatingFileHandler
 from telegram import Update
 from telegram.ext import (
     CallbackContext,
@@ -14,22 +13,10 @@ from telegram.ext import (
     MessageHandler,
     Updater,
 )
+from tg_handlers import TelegramLogsHandler
 
 
 logger = logging.getLogger('tg_bot_no3_logger')
-
-
-class TelegramLogsHandler(RotatingFileHandler):
-
-    def __init__(self, filename, tg_bot, chat_id, **kwargs):
-        super().__init__(filename, **kwargs)
-        self.chat_id = chat_id
-        self.tg_bot = tg_bot
-
-    def emit(self, record):
-        super().emit(record)
-        log_entry = self.format(record)
-        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def start(update: Update, context: CallbackContext):
