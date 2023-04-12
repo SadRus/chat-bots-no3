@@ -27,7 +27,12 @@ def start(update: Update, context: CallbackContext):
     )
 
 
-def send_dialogflow_answer(update: Update, context: CallbackContext):
+def send_dialogflow_answer(
+        update: Update,
+        context: CallbackContext,
+        session_id,
+        project_id,
+):
     input_text = update.message.text
     intent_content = detect_intent_texts(input_text, session_id, project_id)
     output_text = intent_content['fulfillment_text']
