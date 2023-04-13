@@ -1,7 +1,6 @@
 from google.cloud import dialogflow
 
 
-# def detect_intent_texts(text, language_code='ru-RU'):
 def detect_intent_texts(text, session_id, project_id, language_code='ru-RU'):
     """Returns the result of detect intent with texts as inputs.
 
